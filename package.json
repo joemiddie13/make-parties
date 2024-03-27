@@ -1,0 +1,24 @@
+{
+  "name": "make-parties",
+  "version": "1.0.0",
+  "description": "Party Reervation Application School Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joemiddie13/make-parties.git"
+  },
+  "author": "Joseph Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joemiddie13/make-parties/issues"
+  },
+  "homepage": "https://github.com/joemiddie13/make-parties#readme",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2"
+  }
+}
