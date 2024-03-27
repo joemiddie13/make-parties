@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const models = require('./db/models');
+const methodOverride = require('method-override')
 
 // require handlebars
 const exphbs = require('express-handlebars');
@@ -14,6 +15,7 @@ app.engine('handlebars', exphbs.engine({ defaultLayout: 'main', handlebars: allo
 // Use handlebars to render
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'))
 
 // Render the "home" layout for the main page and send the following msg
 // app.get('/', (req, res) => {
@@ -60,6 +62,28 @@ app.post('/events', (req, res) => {
     console.log(err.message);
   })
 })
+
+// EDIT
+app.get('/events/:id/edit', (req, res) => {
+  models.Event.findByPk(req.params.id).then((event) => {
+    res.render('events-edit', { event: event });
+  }).catch((err) => {
+    console.log(err.message);
+  })
+});
+
+// UPDATE
+app.put('/events/:id', (req, res) => {
+  models.Event.findByPk(req.params.id).then(event => {
+    event.update(req.body).then(() => {
+      res.redirect(`/events/${req.params.id}`);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+});
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;
