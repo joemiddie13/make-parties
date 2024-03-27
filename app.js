@@ -1,6 +1,8 @@
 // Initialize express
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser');
+const models = require('./db/models');
 
 // require handlebars
 const exphbs = require('express-handlebars');
@@ -11,6 +13,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main', handlebars: allowInsecurePrototypeAccess(Handlebars) }));
 // Use handlebars to render
 app.set('view engine', 'handlebars');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Render the "home" layout for the main page and send the following msg
 // app.get('/', (req, res) => {
@@ -24,9 +27,25 @@ var events = [
    { title: "I am your third event", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1559190394-df5a28aab5c5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
  ]
  
- // INDEX
- app.get('/', (req, res) => {
-   res.render('events-index', { events: events });
+// INDEX
+app.get('/', (req, res) => {
+   models.Event.findAll({ order: [['createdAt', 'DESC']] }).then(events => {
+     res.render('events-index', { events: events });
+   })
+ })
+
+ // NEW
+app.get('/events/new', (req, res) => {
+   res.render('events-new', {});
+ })
+
+// CREATE
+app.post('/events', (req, res) => {
+   models.Event.create(req.body).then(event => {
+     res.redirect(`/`);
+   }).catch((err) => {
+     console.log(err)
+   });
  })
 
 // Choose a port to listen on
