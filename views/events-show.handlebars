@@ -4,6 +4,7 @@
         <small class="text-muted">Created on: {{event.createdAt}}</small>
         <h3>{{event.title}}</h3>
         <div class="lead">{{event.desc}}</div>
+        <p>Created by: {{event.User.firstName}} {{event.User.lastName}}</p>
         <div class="text-right">
             <a href="/events/{{event.id}}/edit">Edit</a>
         </div>
