@@ -9,7 +9,9 @@ const methodOverride = require('method-override')
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 require('./controllers/events')(app, models);
+require('./controllers/rsvps')(app, models);
 
 // Use "main" as our default layout
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main', handlebars: allowInsecurePrototypeAccess(Handlebars) }));
